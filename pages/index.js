@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const NOT_AVAILABLE_LABEL = "NOT AVAILABLE"
+
 function Chess() {
   const [userName, setUserName] = useState("");
   const [playerDetails, setPlayerDetails] = useState();
@@ -45,16 +47,16 @@ function Chess() {
           <p id="avatar_location">Location : {playerDetails.location}</p>
           <p id="avatar_league">League: {playerDetails.league}</p>
           <p id="avatar_rapid">
-            Best score in Rapid : {playerStats.chess_rapid.best.rating}
+            Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid")? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
           </p>
           <p id="avatar_blitz">
-            Best score in Blitz : {playerStats.chess_blitz.best.rating}
+            Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz")? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
           </p>
           <p id="avatar_bullet">
-            Best score in Bullet : {playerStats.chess_bullet.best.rating}
+            Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet")? playerStats.chess_bullet.best.rating: NOT_AVAILABLE_LABEL}
           </p>
           <p id="avatar_daily">
-            Best score in Daily: {playerStats.chess_daily.best.rating}
+            Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating: NOT_AVAILABLE_LABEL}
           </p>
         </>
       ) : null}
