@@ -1,83 +1,65 @@
-async function get_stats(){
+import { useState } from "react";
 
-  try{
-  const inputfieldname = document.getElementById("username")
-  const username = inputfieldname.value
+function Chess() {
+  const [userName, setUserName] = useState("");
+  const [playerDetails, setPlayerDetails] = useState();
+  const [playerStats, setPlayerStats] = useState();
 
-  const player_details_url = `https://api.chess.com/pub/player/${username}`
-  const player_details_response = await fetch(player_details_url)
+  const get_stats = async () => {
+    try {
+      const player_details_url = `https://api.chess.com/pub/player/${userName}`;
+      const player_details_response = await fetch(player_details_url);
+      const player_details = await player_details_response.json();
 
-  const player_details = await player_details_response.json(); 
+      const player_stats_url = `https://api.chess.com/pub/player/${userName}/stats`;
+      const player_stats_response = await fetch(player_stats_url);
+      const player_stats = await player_stats_response.json();
 
-
-  document.querySelector("#avatar_image").src = player_details.avatar
-  document.querySelector("#avatar_name").innerHTML = player_details.name
-
-
-  const player_stats_url = `https://api.chess.com/pub/player/${username}/stats`
-  const player_stats_response = await fetch(player_stats_url)
-
-  const player_stats = await player_stats_response.json(); 
-
-  const rapid_best_stats = player_stats.chess_rapid.best
-  const blitz_best_stats = player_stats.chess_blitz.best
-  const bullet_best_stats = player_stats.chess_bullet.best
-  const daily_best_stats = player_stats.chess_daily.best
-
-
-  let dictionary = {
-    photo : player_details.avatar,
-    name : player_details.name,
-    username: player_details.username,
-    location: player_details.location,
-    league : player_details.league,
-    rapid_best : rapid_best_stats["rating"],
-    blitz_best : blitz_best_stats["rating"],
-    bullet_best: bullet_best_stats["rating"],
-    daily_best:daily_best_stats["rating"]
-  }
-
-  document.querySelector("#avatar_image").src = dictionary.photo
-  document.querySelector("#avatar_name").innerHTML = "Name :" + dictionary.name
-  document.querySelector("#avatar_username").innerHTML = "Username :" +dictionary.username
-  document.querySelector("#avatar_league").innerHTML = "League :" + dictionary.league
-  document.querySelector("#avatar_rapid").innerHTML = "Best score in Rapid :"  + dictionary.rapid_best
-  document.querySelector("#avatar_bullet").innerHTML = "Best score in Bullet :" +dictionary.bullet_best
-  document.querySelector("#avatar_blitz").innerHTML = "Best score in Blitz :" + dictionary.blitz_best
-  document.querySelector("#avatar_daily").innerHTML = "Best score in Daily :" + dictionary.daily_best
-  document.querySelector("#avatar_location").innerHTML = "Location :" + dictionary.location
-
-
-  console.log(dictionary)
-
-  }catch{
-    console.log("runtime error")
-  }
-
-}
-
-function Chess(){
+      setPlayerDetails(player_details);
+      setPlayerStats(player_stats);
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
 
   return (
-      <div>
-          <label>Name</label>
-          <input type="text" name="name" id="username" onChange={get_stats}/> <br></br>
-
-          <img src="" id="avatar_image"></img>  <br></br>
-          <p1 id="avatar_name"></p1> <br></br>
-          <p1 id="avatar_username"></p1> <br></br>
-          <p1 id="avatar_location"></p1> <br></br>
-          <p1 id="avatar_league"></p1> <br></br>
-          <p1 id="avatar_rapid"></p1> <br></br>
-          <p1 id="avatar_blitz"></p1> <br></br>
-          <p1 id="avatar_bullet"></p1> <br></br>
-          <p1 id="avatar_daily"></p1> <br></br>
-
-
-          
-
-      </div>
-  )
+    <div className="center">
+      <label>Name</label>
+      <input
+        type="text"
+        name="name"
+        id="username"
+        value={userName}
+        onChange={(e) => {
+          setUserName(e.target.value);
+        }}
+      />
+      <button onClick={get_stats}>Get Stats</button>
+      <br></br>
+      {playerDetails && playerStats ? (
+        <>
+          <img src={playerDetails.avatar}></img>
+          <p id="avatar_name">Name : {playerDetails.name}</p>
+          <p id="avatar_username">Username : {playerDetails.username}</p>
+          <p id="avatar_location">Location : {playerDetails.location}</p>
+          <p id="avatar_league">League: {playerDetails.league}</p>
+          <p id="avatar_rapid">
+            Best score in Rapid : {playerStats.chess_rapid.best.rating}
+          </p>
+          <p id="avatar_blitz">
+            Best score in Blitz : {playerStats.chess_blitz.best.rating}
+          </p>
+          <p id="avatar_bullet">
+            Best score in Bullet : {playerStats.chess_bullet.best.rating}
+          </p>
+          <p id="avatar_daily">
+            Best score in Daily: {playerStats.chess_daily.best.rating}
+          </p>
+        </>
+      ) : null}
+    </div>
+  );
 }
 
-export default Chess
+export default Chess;
