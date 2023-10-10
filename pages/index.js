@@ -26,7 +26,7 @@ const styles = {
     color:"white",
   },
   value: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -104,28 +104,28 @@ function Chess() {
             style={styles.cardMedia}
           />
           <CardContent>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h4" style={styles.value}>
+            <Typography variant="h5" style={styles.value}>
               <Skeleton animation="wave" />
             </Typography>
           </CardContent>
@@ -141,20 +141,20 @@ function Chess() {
               alt="Avatar"
             />
             <CardContent>
-              <Typography variant="h4" style={styles.value}>Name: {playerDetails.name}</Typography>
-              <Typography variant="h4" style={styles.value}>Username: {playerDetails.username}</Typography>
-              <Typography variant="h4" style={styles.value}>Location: {playerDetails.location}</Typography>
-              <Typography variant="h4" style={styles.value}>League: {playerDetails.league}</Typography>
-              <Typography variant="h4" style={styles.value}>
+              <Typography variant="h5" style={styles.value}>Name: {playerDetails.name}</Typography>
+              <Typography variant="h5" style={styles.value}>Username: {playerDetails.username}</Typography>
+              <Typography variant="h5" style={styles.value}>Location: {playerDetails.location}</Typography>
+              <Typography variant="h5" style={styles.value}>League: {playerDetails.league}</Typography>
+              <Typography variant="h5" style={styles.value}>
                 Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid") ? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
               </Typography>
-              <Typography variant="h4" style={styles.value}>
+              <Typography variant="h5" style={styles.value}>
                 Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz") ? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
               </Typography>
-              <Typography variant="h4" style={styles.value}>
+              <Typography variant="h5" style={styles.value}>
                 Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet") ? playerStats.chess_bullet.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
-              <Typography variant="h4" style={styles.value}>
+              <Typography variant="h5" style={styles.value}>
                 Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
             </CardContent>
