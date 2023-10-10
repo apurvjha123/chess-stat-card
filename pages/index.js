@@ -1,14 +1,57 @@
+import { Button, Card, CardContent, CardMedia, TextField, Typography, Skeleton } from "@mui/material";
 import { useState } from "react";
 
 const NOT_AVAILABLE_LABEL = "NOT AVAILABLE"
+
+const styles = {
+  card: {
+    maxWidth: 400,
+    margin: "0 auto",
+    marginTop: 20,
+    padding: 20,
+    textAlign: "center",
+    background: "linear-gradient(45deg, #0099f7, #f11712)",
+    color: "#fff",
+    borderRadius:"5%",
+  },
+  cardMedia: {
+    width: 200,
+    height: 200,
+    margin: "0 auto",
+    borderRadius: "50%",
+  },
+  label: {
+    fontSize: 18,
+    marginRight: 10,
+    color:"white",
+  },
+  value: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  getStatsButton: {
+    marginLeft: 10,
+    backgroundColor:"#2d25fa",
+  },
+  loading: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "200px", 
+  },
+};
 
 function Chess() {
   const [userName, setUserName] = useState("");
   const [playerDetails, setPlayerDetails] = useState();
   const [playerStats, setPlayerStats] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const get_stats = async () => {
     try {
+      setIsLoading(true); 
+
       const player_details_url = `https://api.chess.com/pub/player/${userName}`;
       const player_details_response = await fetch(player_details_url);
       const player_details = await player_details_response.json();
@@ -22,44 +65,102 @@ function Chess() {
     } catch (error) {
       console.log(error);
       alert(error.message);
+    } finally {
+      setIsLoading(false); 
     }
   };
 
   return (
     <div className="center">
-      <label>Name</label>
-      <input
-        type="text"
-        name="name"
-        id="username"
-        value={userName}
-        onChange={(e) => {
-          setUserName(e.target.value);
-        }}
-      />
-      <button onClick={get_stats}>Get Stats</button>
-      <br></br>
-      {playerDetails && playerStats ? (
-        <>
-          <img src={playerDetails.avatar}></img>
-          <p id="avatar_name">Name : {playerDetails.name}</p>
-          <p id="avatar_username">Username : {playerDetails.username}</p>
-          <p id="avatar_location">Location : {playerDetails.location}</p>
-          <p id="avatar_league">League: {playerDetails.league}</p>
-          <p id="avatar_rapid">
-            Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid")? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
-          </p>
-          <p id="avatar_blitz">
-            Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz")? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
-          </p>
-          <p id="avatar_bullet">
-            Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet")? playerStats.chess_bullet.best.rating: NOT_AVAILABLE_LABEL}
-          </p>
-          <p id="avatar_daily">
-            Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating: NOT_AVAILABLE_LABEL}
-          </p>
-        </>
-      ) : null}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <label style={styles.label}>Name :</label>
+        <TextField
+          size="small"
+          id="outlined-basic"
+          type="text"
+          name="name"
+          label="username"
+          value={userName}
+          onChange={(e) => {
+            setUserName(e.target.value);
+          }}
+        />
+        <Button
+          size="small"
+          variant="contained"
+          onClick={get_stats}
+          style={styles.getStatsButton}
+        >
+          Get Stats
+        </Button>
+      </div>
+      {isLoading ? (
+        // Render Skeleton 
+        <Card style={styles.card}>
+          <CardMedia
+            component={Skeleton}
+            animation="wave"
+            variant="rect"
+            style={styles.cardMedia}
+          />
+          <CardContent>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+            <Typography variant="h4" style={styles.value}>
+              <Skeleton animation="wave" />
+            </Typography>
+          </CardContent>
+        </Card>
+      ) : (
+        // render player details
+        playerDetails && playerStats ? (
+          <Card style={styles.card}>
+            <CardMedia
+              component="img"
+              style={styles.cardMedia}
+              image={playerDetails.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUYioY1mnJnusvBWO1-NRAFGYpLyqouORfkQ'}//if user doesn't have a pfp
+              alt="Avatar"
+            />
+            <CardContent>
+              <Typography variant="h4" style={styles.value}>Name: {playerDetails.name}</Typography>
+              <Typography variant="h4" style={styles.value}>Username: {playerDetails.username}</Typography>
+              <Typography variant="h4" style={styles.value}>Location: {playerDetails.location}</Typography>
+              <Typography variant="h4" style={styles.value}>League: {playerDetails.league}</Typography>
+              <Typography variant="h4" style={styles.value}>
+                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid") ? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
+              </Typography>
+              <Typography variant="h4" style={styles.value}>
+                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz") ? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
+              </Typography>
+              <Typography variant="h4" style={styles.value}>
+                Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet") ? playerStats.chess_bullet.best.rating : NOT_AVAILABLE_LABEL}
+              </Typography>
+              <Typography variant="h4" style={styles.value}>
+                Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating : NOT_AVAILABLE_LABEL}
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : null
+      )}
     </div>
   );
 }
