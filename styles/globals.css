@@ -12,3 +12,9 @@
     padding: 1px; /* The width is 100%, when the viewport is 800px or smaller */
   }
 }
+body {
+  background-color: #3F1E52;
+}
+.MuiInputBase-input {
+  color: white;
+}
