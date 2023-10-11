@@ -1,46 +1,7 @@
 import { Button, Card, CardContent, CardMedia, TextField, Typography, Skeleton } from "@mui/material";
 import { useState } from "react";
 
-const NOT_AVAILABLE_LABEL = "NOT AVAILABLE"
-
-const styles = {
-  card: {
-    maxWidth: 400,
-    margin: "0 auto",
-    marginTop: 20,
-    padding: 20,
-    textAlign: "center",
-    background: "linear-gradient(45deg, #0099f7, #f11712)",
-    color: "#fff",
-    borderRadius:"5%",
-  },
-  cardMedia: {
-    width: 200,
-    height: 200,
-    margin: "0 auto",
-    borderRadius: "50%",
-  },
-  label: {
-    fontSize: 18,
-    marginRight: 10,
-    color:"white",
-  },
-  value: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  getStatsButton: {
-    marginLeft: 10,
-    backgroundColor:"#2d25fa",
-  },
-  loading: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "200px", 
-  },
-};
+const NOT_AVAILABLE_LABEL = "NOT AVAILABLE";
 
 function Chess() {
   const [userName, setUserName] = useState("");
@@ -50,7 +11,7 @@ function Chess() {
 
   const get_stats = async () => {
     try {
-      setIsLoading(true); 
+      setIsLoading(true);
 
       const player_details_url = `https://api.chess.com/pub/player/${userName}`;
       const player_details_response = await fetch(player_details_url);
@@ -66,14 +27,14 @@ function Chess() {
       console.log(error);
       alert(error.message);
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="center">
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <label style={styles.label}>Name :</label>
+        <label className="label">Name:</label>
         <TextField
           size="small"
           id="outlined-basic"
@@ -89,73 +50,73 @@ function Chess() {
           size="small"
           variant="contained"
           onClick={get_stats}
-          style={styles.getStatsButton}
+          className="getStatsButton"
         >
           Get Stats
         </Button>
       </div>
       {isLoading ? (
-        // Render Skeleton 
-        <Card style={styles.card}>
+        // Render Skeleton
+        <Card className="card">
           <CardMedia
             component={Skeleton}
             animation="wave"
             variant="rect"
-            style={styles.cardMedia}
+            className="cardMedia"
           />
           <CardContent>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
-            <Typography variant="h5" style={styles.value}>
+            <Typography variant="h5" className="value">
               <Skeleton animation="wave" />
             </Typography>
           </CardContent>
         </Card>
       ) : (
-        // render player details
         playerDetails && playerStats ? (
-          <Card style={styles.card}>
+          // Render player details
+          <Card className="card">
             <CardMedia
+              className={`cardMedia avatar`}
               component="img"
-              style={styles.cardMedia}
-              image={playerDetails.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUYioY1mnJnusvBWO1-NRAFGYpLyqouORfkQ'}//if user doesn't have a pfp
+              image={playerDetails.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUYioY1mnJnusvBWO1-NRAFGYpLyqouORfkQ'}
               alt="Avatar"
             />
             <CardContent>
-              <Typography variant="h5" style={styles.value}>Name: {playerDetails.name}</Typography>
-              <Typography variant="h5" style={styles.value}>Username: {playerDetails.username}</Typography>
-              <Typography variant="h5" style={styles.value}>Location: {playerDetails.location}</Typography>
-              <Typography variant="h5" style={styles.value}>League: {playerDetails.league}</Typography>
-              <Typography variant="h5" style={styles.value}>
-                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid") ? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
+              <Typography variant="h5" className="value">Name : {playerDetails.name}</Typography>
+              <Typography variant="h5" className="value">Username : {playerDetails.username}</Typography>
+              <Typography variant="h5" className="value">Location : {playerDetails.location}</Typography>
+              <Typography variant="h5" className="value">League : {playerDetails.league}</Typography>
+              <Typography variant="h5" className="value">
+                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid") ? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
-              <Typography variant="h5" style={styles.value}>
-                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz") ? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
+              <Typography variant="h5" className="value">
+                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz") ? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
-              <Typography variant="h5" style={styles.value}>
+              <Typography variant="h5" className="value">
                 Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet") ? playerStats.chess_bullet.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
-              <Typography variant="h5" style={styles.value}>
-                Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating : NOT_AVAILABLE_LABEL}
+              <Typography variant="h5" className="value">
+                Best score in Daily : {playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating : NOT_AVAILABLE_LABEL}
               </Typography>
             </CardContent>
           </Card>
