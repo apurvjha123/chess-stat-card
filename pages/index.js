@@ -1,4 +1,12 @@
-import { Button, Card, CardContent, CardMedia, TextField, Typography, Skeleton } from "@mui/material";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Skeleton from "@mui/material/Skeleton";
+
+
 import { useState } from "react";
 
 const NOT_AVAILABLE_LABEL = "NOT AVAILABLE";
