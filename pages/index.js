@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const NOT_AVAILABLE_LABEL = "NOT AVAILABLE";
 
-function Chess() {
+function ChessStatWindow() {
   const [userName, setUserName] = useState("");
   const [playerDetails, setPlayerDetails] = useState();
   const [playerStats, setPlayerStats] = useState();
@@ -126,4 +126,4 @@ function Chess() {
   );
 }
 
-export default Chess;
+export default ChessStatWindow;
