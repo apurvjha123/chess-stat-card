@@ -9,7 +9,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 import { useState } from "react";
 
-const NOT_AVAILABLE_LABEL = "NOT AVAILABLE";
+const NOT_AVAILABLE_LABEL = "Not Available"
 
 function ChessStatWindow() {
   const [userName, setUserName] = useState("");
@@ -40,96 +40,65 @@ function ChessStatWindow() {
   };
 
   return (
-    <div className="center">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <label className="label">Name:</label>
-        <TextField
-          size="small"
-          id="outlined-basic"
-          type="text"
-          name="name"
-          label="username"
-          value={userName}
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
-        />
-        <Button
-          size="small"
-          variant="contained"
-          onClick={get_stats}
-          className="getStatsButton"
-        >
-          Get Stats
-        </Button>
-      </div>
-      {isLoading ? (
-        // Render Skeleton
-        <Card className="card">
-          <CardMedia
-            component={Skeleton}
-            animation="wave"
-            variant="rect"
-            className="cardMedia"
+    <div className="window">
+
+      <div className="content_container">
+
+        <div className= "input_container"> 
+
+          <label className="input_name_label">Name</label>
+          <input className="input_name_textbox"
+            type="text"
+            name="name"
+            id="username"
+            value={userName}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
           />
-          <CardContent>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-            <Typography variant="h5" className="value">
-              <Skeleton animation="wave" />
-            </Typography>
-          </CardContent>
-        </Card>
-      ) : (
-        playerDetails && playerStats ? (
-          // Render player details
-          <Card className="card">
-            <CardMedia
-              className={`cardMedia avatar`}
-              component="img"
-              image={playerDetails.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUYioY1mnJnusvBWO1-NRAFGYpLyqouORfkQ'}
-              alt="Avatar"
-            />
-            <CardContent>
-              <Typography variant="h5" className="value">Name : {playerDetails.name}</Typography>
-              <Typography variant="h5" className="value">Username : {playerDetails.username}</Typography>
-              <Typography variant="h5" className="value">Location : {playerDetails.location}</Typography>
-              <Typography variant="h5" className="value">League : {playerDetails.league}</Typography>
-              <Typography variant="h5" className="value">
-                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid") ? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL}
-              </Typography>
-              <Typography variant="h5" className="value">
-                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz") ? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL}
-              </Typography>
-              <Typography variant="h5" className="value">
-                Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet") ? playerStats.chess_bullet.best.rating : NOT_AVAILABLE_LABEL}
-              </Typography>
-              <Typography variant="h5" className="value">
-                Best score in Daily : {playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating : NOT_AVAILABLE_LABEL}
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : null
-      )}
+          <button className= "input_submit_button" onClick={get_stats}>Get Stats</button>
+          <br></br>
+
+        </div>
+
+        <div>
+
+        {playerDetails && playerStats ? (<img src={playerDetails.avatar}></img>) :null}
+        
+        </div>
+        
+
+        <div className="stat_card">
+
+          {playerDetails && playerStats ? (
+            <>
+              
+              <span id="avatar_name">Name : {playerDetails.name}</span>
+              <span id="avatar_username">Username : {playerDetails.username}</span>
+              <span id="avatar_location">Location : {playerDetails.location}</span>
+              <span id="avatar_league">League: {playerDetails.league}</span>
+              <span id="avatar_rapid">
+                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid")? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
+              </span>
+              <span id="avatar_blitz">
+                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz")? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
+              </span>
+              <span id="avatar_bullet">
+                Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet")? playerStats.chess_bullet.best.rating: NOT_AVAILABLE_LABEL}
+              </span>
+              <span id="avatar_daily">
+                Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating: NOT_AVAILABLE_LABEL}
+              </span>
+            </>
+          ) : null}
+
+
+
+
+        </div>
+        
+      </div>
+      
     </div>
   );
 }
