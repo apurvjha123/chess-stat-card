@@ -1,21 +1,28 @@
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
-
-
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Toggle } from "@/components/ui/toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const NOT_AVAILABLE_LABEL = "Not Available"
+const NOT_AVAILABLE_LABEL = "Not Available";
 
 function ChessStatWindow() {
   const [userName, setUserName] = useState("");
-  const [playerDetails, setPlayerDetails] = useState();
-  const [playerStats, setPlayerStats] = useState();
+  const [playerDetails, setPlayerDetails] = useState(null);
+  const [playerStats, setPlayerStats] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const getThemeClasses = () => {
+    return isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black";
+  };
+
+  const darkThemeClasses = getThemeClasses();
 
   const get_stats = async () => {
     try {
@@ -40,65 +47,96 @@ function ChessStatWindow() {
   };
 
   return (
-    <div className="window">
-
-      <div className="content_container">
-
-        <div className= "input_container"> 
-
-          <label className="input_name_label">Name</label>
-          <input className="input_name_textbox"
-            type="text"
-            name="name"
-            id="username"
-            value={userName}
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-          />
-          <button className= "input_submit_button" onClick={get_stats}>Get Stats</button>
-          <br></br>
-
-        </div>
-
-        <div>
-
-        {playerDetails && playerStats ? (<img src={playerDetails.avatar}></img>) :null}
-        
-        </div>
-        
-
-        <div className="stat_card">
-
-          {playerDetails && playerStats ? (
-            <>
-              
-              <span id="avatar_name">Name : {playerDetails.name}</span>
-              <span id="avatar_username">Username : {playerDetails.username}</span>
-              <span id="avatar_location">Location : {playerDetails.location}</span>
-              <span id="avatar_league">League: {playerDetails.league}</span>
-              <span id="avatar_rapid">
-                Best score in Rapid : {playerStats.hasOwnProperty("chess_rapid")? playerStats.chess_rapid.best.rating : NOT_AVAILABLE_LABEL }
-              </span>
-              <span id="avatar_blitz">
-                Best score in Blitz : {playerStats.hasOwnProperty("chess_blitz")? playerStats.chess_blitz.best.rating : NOT_AVAILABLE_LABEL }
-              </span>
-              <span id="avatar_bullet">
-                Best score in Bullet : {playerStats.hasOwnProperty("chess_bullet")? playerStats.chess_bullet.best.rating: NOT_AVAILABLE_LABEL}
-              </span>
-              <span id="avatar_daily">
-                Best score in Daily: { playerStats.hasOwnProperty("chess_daily") ? playerStats.chess_daily.best.rating: NOT_AVAILABLE_LABEL}
-              </span>
-            </>
-          ) : null}
-
-
-
-
-        </div>
-        
+    <div className={`min-h-screen ${darkThemeClasses}`}>
+      <div className="absolute top-4 right-4">
+        <Toggle onClick={toggleTheme}>{isDarkMode ? "🔆" : "🌙"}</Toggle>
       </div>
-      
+      <div className="flex justify-center items-center">
+        <div className={`rounded-lg shadow-2xl p-4 w-full max-w-md ${darkThemeClasses}`}>
+          <div className="mb-4">
+            <label className="block font-semibold mb-2">Username</label>
+            <div className="flex">
+              <Input
+                className={`w-3/4 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 ${darkThemeClasses}`}
+                type="text"
+                name="name"
+                id="username"
+                value={userName}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+              />
+              <Button
+                className={`w-1/4 ml-1 text-sm ${
+                  isDarkMode
+                    ? "bg-white text-gray-600"
+                    : "bg-gray-600 text-white"
+                }`}
+                onClick={get_stats}
+              >
+                Get Stats
+              </Button>
+            </div>
+          </div>
+          {isLoading ? (
+            <>
+              <Skeleton className="w-[100px] h-[20px] rounded-full mb-4" />
+              {[...Array(7)].map((_, index) => (
+                <Skeleton key={index} className="w-full h-4 rounded mb-2" />
+              ))}
+            </>
+          ) : (
+            <>
+              {playerDetails && playerStats ? (
+                <div className="mt-8">
+                  <Avatar className="rounded-full w-40 h-40 mx-auto transition-transform transform hover:scale-105 hover:shadow-2xl">
+                    <AvatarImage src={playerDetails.avatar} />
+                    <AvatarFallback>N/A</AvatarFallback>
+                  </Avatar>
+                  <div className="text-center mt-4">
+                    <span className="block font-semibold">
+                      Name: {playerDetails.name}
+                    </span>
+                    <span className="block">
+                      Username: {playerDetails.username}
+                    </span>
+                    <span className="block">
+                      Location: {playerDetails.location}
+                    </span>
+                    <span className="block">
+                      League: {playerDetails.league}
+                    </span>
+                    <span className="block">
+                      Best score in Rapid:{" "}
+                      {playerStats.hasOwnProperty("chess_rapid")
+                        ? playerStats.chess_rapid.best.rating
+                        : NOT_AVAILABLE_LABEL}
+                    </span>
+                    <span className="block">
+                      Best score in Blitz:{" "}
+                      {playerStats.hasOwnProperty("chess_blitz")
+                        ? playerStats.chess_blitz.best.rating
+                        : NOT_AVAILABLE_LABEL}
+                    </span>
+                    <span className="block">
+                      Best score in Bullet:{" "}
+                      {playerStats.hasOwnProperty("chess_bullet")
+                        ? playerStats.chess_bullet.best.rating
+                        : NOT_AVAILABLE_LABEL}
+                    </span>
+                    <span className="block">
+                      Best score in Daily:{" "}
+                      {playerStats.hasOwnProperty("chess_daily")
+                        ? playerStats.chess_daily.best.rating
+                        : NOT_AVAILABLE_LABEL}
+                    </span>
+                  </div>
+                </div>
+              ) : null}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
