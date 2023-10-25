@@ -108,25 +108,25 @@ function ChessStatWindow() {
                     </span>
                     <span className="block">
                       Best score in Rapid:{" "}
-                      {playerStats.hasOwnProperty("chess_rapid")
+                      {playerStats.chess_rapid && playerStats.chess_rapid.best
                         ? playerStats.chess_rapid.best.rating
                         : NOT_AVAILABLE_LABEL}
                     </span>
                     <span className="block">
                       Best score in Blitz:{" "}
-                      {playerStats.hasOwnProperty("chess_blitz")
+                      {playerStats.chess_blitz && playerStats.chess_blitz.best
                         ? playerStats.chess_blitz.best.rating
                         : NOT_AVAILABLE_LABEL}
                     </span>
                     <span className="block">
                       Best score in Bullet:{" "}
-                      {playerStats.hasOwnProperty("chess_bullet")
+                      {playerStats.chess_bullet && playerStats.chess_bullet.best
                         ? playerStats.chess_bullet.best.rating
                         : NOT_AVAILABLE_LABEL}
                     </span>
                     <span className="block">
                       Best score in Daily:{" "}
-                      {playerStats.hasOwnProperty("chess_daily")
+                      {playerStats.chess_daily && playerStats.chess_daily.best
                         ? playerStats.chess_daily.best.rating
                         : NOT_AVAILABLE_LABEL}
                     </span>
